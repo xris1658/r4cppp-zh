@@ -223,6 +223,48 @@ fn main() {
 
 （`S2` 和 `S3` 的形参 `'a` 是生存期形参，很快就讲。）
 
+有时，某个对象在逻辑上不可变，但没有有一部分需要可变。想象下多种缓存和引用计数（引用计数在逻辑上不能是不可变的，因为修改引用计数的影响可以通过析构函数观测）。C++ 中可使用 `mutable` 关键字允许对象本身为 `const` 时被修改。Rust 中则有 `Cell` 和 `RefCell` 结构体。这两个设施允许不可变对象的一部分可变。尽管有用，但这也意味着你需要注意，在 Rust 中看到的不可变对象，其中一部分可能还是可变的。
+
+`RefCell` 和 `Cell` 允许绕过 Rust 对于修改和别名的严格规定。它们仍是安全设施，因为会动态确保 Rust 的不变因素成立，即使编译器无法确保不变因素能否静态成立。`Cell` 和 `RefCell` 均为单线程对象。
+
+对带有复制语义的类型（基本只有原始类型）使用 `Cell`。`Cell` 内含 `get` 和 `set` 方法，用于修改存储的值，以及用值初始化 `Cell` 的 `new` 方法。`Cell` 是个很简单的对象，无需进行高阶操作，因为 Rust 中带有复制语义的对象无法在别处持有引用，无法咋线程间共享，因此多数内容不会出问题。
+
+对带有移动语义的类型使用 `RefCell`，Rust 中几乎所有类型都带有移动语义，常见的类型包括结构体类型等。`RefCell` 同样使用 `new` 创建，内置 `set` 方法。要获取 `RefCell` 中的值，必须使用借用方法（`borrow`，`borrow_mut`，`try_borrow`，`try_borrow_mut`）将其借来。借用方法会返回 `RefCell` 用对象的借用引用。这些方法同样遵循静态借用的规定：可变借用引用只能有一个，可变和不可变借用引用不能同时出现。然而不同在于，此处不会出现编译错误（compile error），而是运行时错误（runtime failure，翻译待办：补充 error 和 failure 的区别）。`try_` 变体方法返回 `Option` 对象，如果能借出值则返回 `Some(val)`，否则返回 `None`。如果值被借出，调用 `set` 也会出运行错误。
+
+下例使用了指向 `RefCell` 的引用计数指针（常见用例）：
+
+```rs
+use std::rc::Rc;
+use std::cell::RefCell;
+
+struct S {
+    field: i32
+}
+
+fn foo(x: Rc<RefCell<S>>) {
+    {
+        let s = x.borrow();
+        println!("the field, twice {} {}", s.field, x.borrow().field); // 译者注：不可变借走两次
+        // let s = x.borrow_mut(); // 错误：已经借出了 x 的内容
+    }
+    
+    let mut s = x.borrow_mut(); // 正确：之前的借用引用离开了生存期
+    s.field = 45;
+    // println!("The field {}", x.borrow().field); // 错误：（已被可变借走，因此）无法进行可变和不可变借用
+    println!("The field {}", s.field);
+}
+
+fn main() {
+    let s = S{field:12};
+    let x: Rc<RefCell<S>> = Rc::new(RefCell::new(s));
+    foo(x.clone());
+
+    println!("The field {}", x.borrow().field);
+}
+```
+
+若使用 `Cell` 或 `RefCell`，应力求将其用于最小对象。换言之，将其优先用于结构体的少数字段，而非整个结构体。把这两个东西想象成单线程锁，更精细的锁更好，因为更容易避免撞锁（collide on a lock）。
+
 ##### 1
 
 C++17 带有 `std::variant<T>` 类型，相较联合体而言，它和 Rust 的枚举更相似。
