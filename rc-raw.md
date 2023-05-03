@@ -1,3 +1,5 @@
+[阅读英文原版](https://github.com/nrc/r4cppp/blob/master/rc-raw.md)
+
 ## 引用计数和原始指针
 
 待补充：添加定制指针和 `Deref` 特征的讨论（此处不表，后文再讲）

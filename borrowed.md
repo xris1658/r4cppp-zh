@@ -1,3 +1,5 @@
+[阅读英文原版](https://github.com/nrc/r4cppp/blob/master/borrowed.md)
+
 # 借用指针
 
 上篇文章中，我介绍了独占指针。这次我来介绍另一种在多数 Rust 程序中常见得多的指针：借用指针（又名借用引用，简称引用）。

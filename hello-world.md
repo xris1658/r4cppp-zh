@@ -1,3 +1,5 @@
+[阅读英文原版](https://github.com/nrc/r4cppp/blob/master/hello-world.md)
+
 # 引言 - hello world!
 
 读者如果在使用 C 或 C++，可能是因为非用不可：需要访问系统底层，或是需要榨干性能，或许二者兼具。Rust 的目标在于提供同样的内存抽象层次，同样的性能，但又更加安全，提高用户效率。

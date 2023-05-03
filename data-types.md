@@ -1,3 +1,5 @@
+[阅读英文原版](https://github.com/nrc/r4cppp/blob/master/data-types.md)
+
 # 数据类型
 
 本文探讨 Rust 的数据类型。这和 C++ 中的类、结构体和枚举大体相同。Rust 的一个不同在于，和 C++（以及 Java 和其他的面向对象的语言）相比，Rust 中的数据和行为是严格分开的。行为通过函数定义，函数则可定义于特征和 `impl`（实现（implementations））中定义，而特征无法包含数据，这与 Java 中的接口（interface）相似。之后有一篇文章专讲特征和实现，这篇文章只讲数据。
