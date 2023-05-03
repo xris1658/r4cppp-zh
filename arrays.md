@@ -1,3 +1,5 @@
+[阅读英文原版](https://github.com/nrc/r4cppp/blob/master/arrays.md)
+
 # 数组和动态数组
 
 Rust 的数组和 C 的数组挺不一样的。对于初学者而言，数组有静态和动态两种。两种通常分别称作定长数组（fixed length array）和切片（slice）。我们会看到，第一种数组的名字不太好，因为两种数组都是定长的（和可扩张相对）。要可扩张“数组”的话，Rust 提供了 `Vec` 集合。

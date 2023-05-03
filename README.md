@@ -24,7 +24,7 @@
 1. [数据类型](data-types.md)
 1. [展开操作（一）](destructuring.md)
 1. [展开操作（二）](destructuring-2.md)
-1. 数组和动态数组
+1. [数组和动态数组](arrays.md)
 1. 图和 arena allocation
 1. 闭包和一等函数
 
