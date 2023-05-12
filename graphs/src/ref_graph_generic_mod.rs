@@ -1,14 +1,14 @@
-// Note that this one is hypothetical future Rust and will not compile today.
+// 注意，这是个假想的 Rust 未来特性，如今无法编译。
 
 use std::cell::UnsafeCell;
 use std::collections::HashSet;
 use arena::TypedArena;
 
-// Module is parameterised with the lifetime of the graph.
+// 模块使用图的生存期参数化
 mod graph<'a> {
     struct Node {
         datum: &'static str,
-        // The module-level lifetime is used for the lifetime of each Node.
+        // 模块生存期被用于每个 Node 的生存期
         edges: UnsafeCell<Vec<&'a Node>>,
     }
 

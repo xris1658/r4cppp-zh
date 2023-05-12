@@ -231,7 +231,7 @@ fn main() {
 
 对带有复制语义的类型（基本只有原始类型）使用 `Cell`。`Cell` 内含 `get` 和 `set` 方法，用于修改存储的值，以及用值初始化 `Cell` 的 `new` 方法。`Cell` 是个很简单的对象，无需进行高阶操作，因为 Rust 中带有复制语义的对象无法在别处持有引用，无法咋线程间共享，因此多数内容不会出问题。
 
-对带有移动语义的类型使用 `RefCell`，Rust 中几乎所有类型都带有移动语义，常见的类型包括结构体类型等。`RefCell` 同样使用 `new` 创建，内置 `set` 方法。要获取 `RefCell` 中的值，必须使用借用方法（`borrow`，`borrow_mut`，`try_borrow`，`try_borrow_mut`）将其借来。借用方法会返回 `RefCell` 用对象的借用引用。这些方法同样遵循静态借用的规定：可变借用引用只能有一个，可变和不可变借用引用不能同时出现。然而不同在于，此处不会出现编译错误（compile error），而是运行时错误（runtime failure，翻译待办：补充 error 和 failure 的区别）。`try_` 变体方法返回 `Option` 对象，如果能借出值则返回 `Some(val)`，否则返回 `None`。如果值被借出，调用 `set` 也会出运行错误。
+对带有移动语义（move semantics）的类型使用 `RefCell`，Rust 中几乎所有类型都带有移动语义，常见的类型包括结构体类型等。`RefCell` 同样使用 `new` 创建，内置 `set` 方法。要获取 `RefCell` 中的值，必须使用借用方法（`borrow`，`borrow_mut`，`try_borrow`，`try_borrow_mut`）将其借来。借用方法会返回 `RefCell` 用对象的借用引用。这些方法同样遵循静态借用的规定：可变借用引用只能有一个，可变和不可变借用引用不能同时出现。然而不同在于，此处不会出现编译错误（compile error），而是运行时故障（runtime failure，翻译待办：补充 error 和 failure 的区别）。`try_` 变体方法返回 `Option` 对象，如果能借出值则返回 `Some(val)`，否则返回 `None`。如果值被借出，调用 `set` 也会出运行错误。
 
 下例使用了指向 `RefCell` 的引用计数指针（常见用例）：
 
