@@ -29,7 +29,7 @@ println!("The second element is {}", a[1]);
 
 ```rs
 let mut a = [1, 2, 3, 4];
-1[3] = 5;
+a[3] = 5;
 println!("{:?}", a);
 ```
 
