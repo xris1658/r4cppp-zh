@@ -1,3 +1,5 @@
+[阅读英文原版](https://github.com/nrc/r4cppp/blob/master/graphs/README.md)
+
 # 图和内存池分配
 
 （提示：可以通过下载此目录并运行 `cargo run` 的方式运行本章示例。）
