@@ -141,7 +141,7 @@ Rust 的一个首要的安全目标就是防止悬垂指针（指针比指向的
 ```rs
 fn foo() {
     let x = 5;
-    let mut xr = &x; // 正确：x 和 xr 的生命期一致
+    let mut xr = &x; // 正确：x 和 xr 的生存期一致
     {
         let y = 6;
         xr = &y // 错误：xr 比 y 活得久
