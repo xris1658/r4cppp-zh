@@ -325,7 +325,7 @@ impl<'env> FnMut<(i32,)> for Closure14<'env> {
     }
 }
 impl<'env> Fn<(i32,)> for Closure14<'env> {
-    fn call_once(&self, args: (i32,)) -> i32 {
+    fn call(&self, args: (i32,)) -> i32 {
         ...
     }
 }
