@@ -12,9 +12,9 @@
 
 ## 获取 Rust
 
-可以从 [http://www.rust-lang.org/install.html](http://www.rust-lang.org/install.html) 获取 Rust。此下载链接包含了 Rust 编译器、标准库、以及包管理工具兼构建工具 Cargo。
+可以从 [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install) 获取 Rust。此处的下载内容包含了 Rust 编译器、标准库、以及 Rust 的包管理工具兼构建工具 Cargo。
 
-Rust 共有三个发布通道（channel）可用：稳定版、Beta 版和 Nightly 版。Rust 的开发工作基于快速的发行节奏，计划每过六周发行一次新版本。发行日到来时，Nightly 版成为 Beta 版，Beta 版成为稳定版。
+Rust 共有三个发布通道（channel）可用：稳定版、Beta 版和 Nightly 版。Rust 基于快速的发行节奏，计划每过六周发行一次新版本。发行日到来时，Nightly 版成为 Beta 版，Beta 版成为稳定版。
 
 Nightly 于每日晚上更新，适合试验最新特性并保证自己的库可用于未来版本的 Rust 的用户。
 
@@ -32,13 +32,13 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 choco install rust
 ```
 
-要使用其他安装方式，参阅 [http://www.rust-lang.org/install.html](http://www.rust-lang.org/install.html)。
+要使用其他安装方式，参阅 [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)。
 
 可以在 [github.com/rust-lang/rust](github.com/rust-lang/rust) 获取源代码。要构建编译器，运行 `./configure && make rustc`。若需要更详细的步骤，请参阅 [building-from-source](https://github.com/rust-lang/rust#building-from-source)。
 
 ## Hello World!
 
-构建 Rust 程序最简单的方式是使用 Cargo。要使用 Cargo 新建项目，运行 `cargo new --bin hello`。此命令会新建一个名为 `hello` 的目录，内含文件 `Cargo.toml`，以及目录 `src`，内含一个文件 `main.rs`。
+构建 Rust 程序最简单的方式是使用 Cargo。要使用 Cargo 新建名为 `hello` 的项目，运行 `cargo new --bin hello`。此命令会新建一个名为 `hello` 的目录，内含文件 `Cargo.toml`，以及目录 `src`，内含一个文件 `main.rs`。
 
 `Cargo.toml` 定义了项目的依赖项，以及其他的元数据。我们之后详细描述。
 
@@ -60,13 +60,13 @@ Cargo 会创建 `target` 目录，并存放可执行程序。
 我们简单修改下代码：
 ```rs
 fn main() {
-    let world  = "world";
+    let world = "world";
     println!("Hello {}!", world);
 }
 ```
 `let` 用于引入变量，名称为 `world`，是字符串（准确而言，其类型是 `&'static str`，后面详细描述）。我们不用指明类型，编译器会推导的。
 
-在 `println` 中使用 `{}` 和在 `printf` 中使用 `%s` 一样。其实 `{}` 比 `%s` 更通用一些，因为 Rust 会尝试将不会字符串的变量转换为字符串[^1]（如同 C++ 中的 `operator<<()`）。读者可以用简单用一下——试试写多个字符串，或者换用数字（整型和浮点字面量都能用）。
+在 `println` 中使用 `{}` 和在 `printf` 中使用 `%s` 类似。其实 `{}` 比 `%s` 更通用一些，因为 Rust 会尝试将不会字符串的变量转换为字符串[^1]（如同 C++ 中的 `operator<<()`）。读者可以用简单用一下——试试写多个字符串，或者换用数字（整型和浮点字面量都能用）。
 
 如果想的话，可以明确标注 `world` 的类型：
 ```rs
@@ -84,20 +84,20 @@ fn main() {
 ```
 函数 `foo` 接受一个形参，即字符串字面量 `_x`，我们在 `main` 中传入了 `"bar"`。[^2]
 
-函数的返回类型在 `->` 后指出。如果函数什么都不返回（如同 C++ 的 `void` 函数），我们用不着指出返回类型（`main` 函数便是如此）。如果读者仍想显式指出，则写 `-> ()`，其中 `()` 是 Rust 的 `void` 类型。
+函数的返回类型在 `->` 后指出。如果函数什么都不返回（如同 C++ 的 `void` 函数），我们用不着指出返回类型（`main` 函数便是如此）。如果读者仍想显式指出，可以写成 `-> ()`，其中 `()` 是 Rust 的 `void` 类型。
 
-Rust 中不需要 `return` 关键字，只要函数体（或者其他的代码块，更多例子以后补充）的最后一个表达式（expression）不以分号结尾，返回值就是它了。因此 `foo` 会返回 `world`。`return` 关键字仍然存在，因此我们可以提前返回。可以使用 `return "world";` 替换 `"world"`，效果相同。
+Rust 中不需要 `return` 关键字，只要函数体（或者其他的代码块，更多例子以后补充）的最后一个表达式（expression）不以分号结尾，返回值就是它了。因此 `foo` 会返回 `"world"`。`return` 关键字仍然存在，因此我们可以提前返回。可以使用 `return "world";` 替换 `"world"`，效果相同。
 
 ## 为什么？
 
 我想重点提一下上述的部分语言特性。
 
 局部类型推导既方便又有用，且不会损失安全性和性能（现代 C++ 同样引入了此特性）。  
-Rust 中的语言实体（language item）均使用关键字（`fn`，`let` 等）标注，使得人工和程序阅读代码更简单。一般来说，Rust 的语法比 C++ 的更加简单，且更为一致。  
-`println!` 宏比 `printf` 更安全，因为会检查实参数量和格式字符串的占位符数量是否匹配，此外还检查实参类型。这意味着读者不会出现按照不同类型打印内存的错误，以及访问栈外内存的错误。
+Rust 中的语言实体（language item）均使用关键字（`fn`，`let` 等）标注，使得人工和程序阅读代码更简单。一般来说，Rust 的语法比 C++ 的更加简单，且一致性更好。  
+`println!` 宏比 `printf` 更安全，因为会检查实参数量和格式字符串的占位符数量是否匹配，此外还检查实参类型。这意味着读者不会出现使用 `printf` 按照不同类型打印内存的错误，以及不慎访问栈外内存的错误。
 
 这些是比较小的细节，不过我希望这些内容可以体现 Rust 设计背后的哲学。
 
-[^1]: 这是由程序员指定的转换，其使用了 `Display` 特征（trait），运作方式有点类似 Java 中的 `toString`。也可以使用 `{:?}` 打印编译器生成的信息，有时用作调试。对于 `printf`，其选项众多。
+[^1]: 这是由程序员指定的转换，其使用了 `Display` 特征（trait），运作方式有点类似 Java 中的 `toString`。也可以使用 `{:?}` 打印编译器生成的呈现方式，有时用作调试。对于 `printf`，其选项众多。
 
-[^2]: 我们在 `foo` 中没有使用实参。通常 Rust 会警告此事。我们通过在实参名前加 `_` 前缀的方式排除了这一警告。其实我们用不着为实参起名，只用 `_` 就行。
+[^2]: 我们在 `foo` 中没有使用实参。通常 Rust 会警告此事。我们通过在实参名前加 `_` 前缀的方式排除了这一警告。其实我们用不着为实参起名，直接用 `_` 就行。
